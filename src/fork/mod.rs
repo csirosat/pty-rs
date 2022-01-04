@@ -27,7 +27,7 @@ impl Fork {
                 if let Some(cause) = master.grantpt().err().or(master.unlockpt().err()) {
                     Err(ForkError::BadMaster(cause))
                 } else {
-                    match libc::fork() {
+                    match libc::vfork() {
                         -1 => Err(ForkError::Failure),
                         0 => {
                             match master.ptsname() {
